@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.contrib.auth.models import User
 from .models import Snippet
 from .serializers import SnippetSerializer, UserSerializer
+from .permissions import IsOwnerOrReadOnly
 from rest_framework import generics
 from rest_framework import permissions
 
@@ -18,7 +19,7 @@ class SnippetList(generics.ListCreateAPIView):
 class SnippetDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Snippet.objects.all()
     serializer_class = SnippetSerializer
-    permissions_classes = [permissions.IsAuthenticatedOrReadOnly]
+    permissions_classes = [permissions.IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly]
 
 
 class UserList(generics.ListAPIView):
