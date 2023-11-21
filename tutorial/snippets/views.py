@@ -6,7 +6,7 @@ from rest_framework.reverse import reverse
 from .models import Snippet
 from .serializers import SnippetSerializer, UserSerializer
 from .permissions import IsOwnerOrReadOnly
-from rest_framework import generics, permissions
+from rest_framework import generics, permissions, renderers
 
 
 @api_view(['GET'])
@@ -43,9 +43,9 @@ class UserDetail(generics.RetrieveAPIView):
 
 
 class SnippetHighlight(generics.GenericAPIView):
-    queryset = Snippet.objects.all()
-    renderer_classes = [renderers.StaticHTMLRenderer]
+   queryset = Snippet.objects.all()
+   renderer_classes = [renderers.StaticHTMLRenderer]
 
-    def get(self, request, **kwargs):
-        snippet = self.object()
-        return Response(snippet.highlighted)
+   def get(self, request, **kwargs):
+       snippet = self.get_object()
+       return Response(snippet.highlighted)
